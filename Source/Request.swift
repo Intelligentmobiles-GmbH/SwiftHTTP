@@ -301,6 +301,11 @@ extension URLRequest {
     Helper method to create the multipart form data
     */
     func multiFormHeader(_ name: String, fileName: String?, type: String?, multiCRLF: String) -> String {
+        var name = name
+        if name.hasSuffix("[]") {
+            name = "\(name.substring(to: name.index(name.endIndex, offsetBy: -2)))"
+        }
+        
         var str = "Content-Disposition: form-data; name=\"\(name.quoteEscaped)\""
         if let n = fileName {
             str += "; filename=\"\(n.quoteEscaped)\""
